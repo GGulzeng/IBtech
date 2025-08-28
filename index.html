@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>퀴즈</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <button id="btnBack" class="back-btn" aria-label="뒤로 가기">뒤로 가기</button>
+    <h1 id="screenTitle" class="title">퀴즈</h1>
+  </header>
+
+  <!-- 학년 선택 -->
+  <main id="viewHome" class="view active">
+    <div class="grid-3">
+      <button class="grade-card" data-grade="1">1학년</button>
+      <button class="grade-card" data-grade="2">2학년</button>
+      <button class="grade-card" data-grade="3">3학년</button>
+      <button class="grade-card" data-grade="4">4학년</button>
+      <button class="grade-card" data-grade="5">5학년</button>
+      <button class="grade-card" data-grade="6">6학년</button>
+    </div>
+  </main>
+
+  <!-- 과목 선택 (1,2학년) -->
+  <main id="viewSubjectLow" class="view">
+    <h2 class="subtitle">과 목 선 택</h2>
+    <div class="grid-2">
+      <button class="subject-card" data-subject="국어">국어</button>
+      <button class="subject-card" data-subject="수학">수학</button>
+    </div>
+  </main>
+
+  <!-- 과목 선택 (3~6학년) -->
+  <main id="viewSubjectHigh" class="view">
+    <h2 class="subtitle">과 목 선 택</h2>
+    <div class="grid-3">
+      <button class="subject-card" data-subject="국어">국어</button>
+      <button class="subject-card" data-subject="수학">수학</button>
+      <button class="subject-card" data-subject="과학">과학</button>
+      <button class="subject-card" data-subject="사회">사회</button>
+      <button class="subject-card" data-subject="영어">영어</button>
+    </div>
+  </main>
+
+  <!-- 문제 풀이 -->
+  <main id="viewQuiz" class="view">
+    <section class="figure-wrap" id="figureWrap">
+      <div id="figureBox" class="figure-box">그래프나 도형(포함된다면)</div>
+    </section>
+    <section class="question-wrap">
+      <div id="questionText" class="question">문제</div>
+    </section>
+    <section id="choicesWrap" class="choices-grid"></section>
+    <footer class="quiz-footer">
+      <div id="progress" class="progress">1 / 20</div>
+    </footer>
+  </main>
+
+  <!-- 정답/오답 모달 -->
+  <div id="answerModal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <div id="modalBadge" class="badge">정답</div>
+      <div id="modalAnswer" class="modal-answer"></div>
+      <div id="modalExplain" class="modal-explain"></div>
+      <div class="modal-controls">
+        <button id="btnNext" class="next-btn">다음 문제</button>
+        <div class="timer">
+          <div id="timerBar" class="timer-bar"></div>
+          <span id="timerText" class="timer-text">10</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

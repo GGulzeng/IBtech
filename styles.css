@@ -1,0 +1,47 @@
+
+:root{ --line:#2e7d32; --accent:#2e7d32; --bg:#ffffff; --text:#111; }
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:system-ui,Apple SD Gothic Neo,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+.topbar{display:flex;align-items:center;gap:12px;padding:16px 20px}
+.title{margin:0 auto;font-size:48px;font-weight:700}
+.back-btn{border:2px solid var(--line);background:transparent;padding:8px 12px;border-radius:8px;cursor:pointer}
+.view{display:none;max-width:1100px;margin:0 auto;padding:24px}
+.view.active{display:block}
+
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:48px;margin-top:56px}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:48px;margin-top:56px}
+
+.grade-card,.subject-card{
+  border:3px solid var(--line);border-radius:12px;background:transparent;
+  height:180px;font-size:48px;font-weight:600;cursor:pointer;
+}
+.figure-wrap{margin:12px 0}
+.figure-box{
+  border:3px solid var(--line);border-radius:12px;height:220px;
+  display:flex;align-items:center;justify-content:center;font-size:36px;opacity:.9
+}
+.question-wrap{margin-top:12px}
+.question{font-size:40px;border-left:6px solid var(--line);padding:16px 20px}
+.choices-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px;margin-top:28px}
+.choice-btn{border:2px solid var(--line);background:transparent;border-radius:10px;height:80px;font-size:32px;cursor:pointer}
+.quiz-footer{margin-top:20px;display:flex;justify-content:flex-end}
+.progress{font-size:20px;opacity:.8}
+
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;align-items:center;justify-content:center}
+.modal.show{display:flex}
+.modal-content{background:#fff;max-width:760px;width:92%;border:3px solid var(--line);border-radius:16px;padding:24px 24px 16px}
+.badge{display:inline-block;padding:6px 12px;border-radius:999px;border:2px solid var(--line);margin-bottom:8px;font-weight:700}
+.modal-answer{font-size:28px;margin:8px 0 6px}
+.modal-explain{font-size:20px;opacity:.9}
+.modal-controls{display:flex;align-items:center;gap:16px;margin-top:18px}
+.next-btn{border:2px solid var(--line);background:transparent;padding:10px 16px;border-radius:10px;font-size:20px;cursor:pointer}
+.timer{position:relative;flex:1;height:14px;background:#eee;border-radius:999px;overflow:hidden}
+.timer-bar{position:absolute;left:0;top:0;height:100%;width:0;background:var(--accent)}
+.timer-text{margin-left:8px;min-width:30px;text-align:right}
+@media (max-width:800px){
+  .title{font-size:36px}
+  .grid-3,.grid-2{gap:24px}
+  .grade-card,.subject-card{height:140px;font-size:36px}
+  .figure-box{height:180px;font-size:24px}
+  .choice-btn{height:70px;font-size:24px}
+}
