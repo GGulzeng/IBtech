@@ -298,3 +298,76 @@ function startTimer(seconds, onEnd){
   }, 1000);
 }
 function stopTimer(){ if(timerId){ clearInterval(timerId); timerId = null; } }
+
+
+// ===== COORD parser & renderer =====
+function parseCoordSpec(spec){
+  if(!spec) return null;
+  const raw = String(spec).trim();
+  if(!raw.toUpperCase().startsWith('COORD')) return null;
+
+  const getSection = (key) => {
+    const m = raw.match(new RegExp(key+"\\s*=\\s*([^;]+)","i"));
+    return m ? m[1].trim() : null;
+  };
+  const ptsSec = getSection('points');
+  const points = [];
+  if(ptsSec){
+    const re = /\((\-?\d+(?:\.\d+)?),\s*(\-?\d+(?:\.\d+)?)\)/g;
+    let mm;
+    while( (mm = re.exec(ptsSec)) ){
+      points.push({x: Number(mm[1]), y: Number(mm[2])});
+    }
+  }
+  let move = {dx:0, dy:0};
+  const moveSec = getSection('move');
+  if(moveSec){
+    const m2 = moveSec.match(/\((\-?\d+(?:\.\d+)?),\s*(\-?\d+(?:\.\d+)?)\)/);
+    if(m2){ move = {dx:Number(m2[1]), dy:Number(m2[2])}; }
+  }
+  let gridMin = 0, gridMax = 10;
+  const gridSec = getSection('grid');
+  if(gridSec){
+    const m3 = gridSec.match(/(-?\d+)\s*\.\.\s*(-?\d+)/);
+    if(m3){ gridMin = Number(m3[1]); gridMax = Number(m3[2]); }
+  }
+  return { kind:'COORD', points, move, gridMin, gridMax };
+}
+
+function renderCoordSVG(container, info){
+  const w = container.clientWidth || 700;
+  const h = container.clientHeight || 220;
+  const pad = {l:40, r:12, t:12, b:28};
+  const cw = Math.max(50, w - pad.l - pad.r);
+  const ch = Math.max(50, h - pad.t - pad.b);
+  const min = info.gridMin, max = info.gridMax;
+  const range = Math.max(1, max - min);
+  const sx = cw / range;
+  const sy = ch / range;
+
+  const X = (x) => pad.l + (x - min) * sx;
+  const Y = (y) => pad.t + ch - (y - min) * sy;
+
+  let svg = `<svg viewBox="0 0 ${w} ${h}" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">`;
+  for(let v=min; v<=max; v++){
+    const gx = X(v);
+    const gy = Y(v);
+    svg += `<line x1="${gx}" y1="${pad.t}" x2="${gx}" y2="${pad.t+ch}" stroke="#e0e0e0" stroke-width="1"/>`;
+    svg += `<line x1="${pad.l}" y1="${gy}" x2="${pad.l+cw}" y2="${gy}" stroke="#f0f0f0" stroke-width="1"/>`;
+    svg += `<text x="${gx}" y="${pad.t+ch+18}" font-size="11" text-anchor="middle">${v}</text>`;
+    svg += `<text x="${pad.l-6}" y="${gy+4}" font-size="11" text-anchor="end">${v}</text>`;
+  }
+  svg += `<rect x="${pad.l}" y="${pad.t}" width="${cw}" height="${ch}" fill="none" stroke="#333" stroke-width="1"/>`;
+
+  const pts = info.points.map(p => ({x: p.x + info.move.dx, y: p.y + info.move.dy}));
+  if(pts.length >= 2){
+    const poly = pts.map(p => `${X(p.x)},${Y(p.y)}`).join(' ');
+    svg += `<polyline points="${poly}" fill="none" stroke="#2e7d32" stroke-width="2"/>`;
+  }
+  pts.forEach(p=>{
+    svg += `<circle cx="${X(p.x)}" cy="${Y(p.y)}" r="3" fill="#2e7d32"><title>(${p.x}, ${p.y})</title></circle>`;
+  });
+
+  svg += `</svg>`;
+  container.innerHTML = svg;
+}
