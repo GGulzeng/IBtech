@@ -6,6 +6,8 @@ let idx = 0;
 let correct = 0;
 let timerId = null;
 let timerLeft = 10;
+// Layout tweak: figure area removed from UI for now
+const FIGURE_DISABLED = true;
 
 // ===== Utils =====
 function $(s){ return document.querySelector(s); }
@@ -248,9 +250,10 @@ function renderQuiz(){
   }
   const q = questions[idx];
   const fig = $('#figureBox');
-  const ginfo = parseGraphMeta(q.meta);
-  if(ginfo){ renderGraphSVG(fig, ginfo); }
-  else { fig.textContent = '그래프나 도형(포함된다면)'; }
+  if(!FIGURE_DISABLED){
+    const ginfo = parseGraphMeta(q.meta);
+    if(ginfo){ renderGraphSVG(fig, ginfo); } else { fig.textContent = '그래프나 도형(포함된다면)'; }
+  }
   $('#questionText').textContent = q.question;
 
   const wrongs = shuffle(q.choices.filter(c => String(c).trim() !== String(q.answer).trim())).slice(0,3);
