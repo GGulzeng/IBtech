@@ -47,21 +47,21 @@ html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-famil
 }
 
 
-/* ==== TEMP: hide '수학' subject buttons (all grades) ==== */
+/* === TEMP: hide '수학' subject buttons (all grades) === */
 .subject-card[data-subject="수학"]{ display:none !important; }
 
 
-/* ==== Remove visual figure area from layout (keep DOM for later re-enable) ==== */
+/* === TEMP: hide figure area (graph/shape) to enlarge question & choices === */
 .figure-wrap{ display:none !important; }
 .figure-box{ display:none !important; }
 
 
-/* ==== Enlarged question & choices ==== */
-.view{ max-width: 1280px; }
-.question{ font-size: 56px; line-height:1.25; padding:20px 24px; }
-.choices-grid{ gap: 32px; }
-.choice-btn{ height: 100px; font-size: 36px; }
+/* === Enlarged question/choices === */
+.view{ max-width:1280px; }
+.question{ font-size:56px; line-height:1.28; padding:22px 26px; }
+.choices-grid{ gap:32px; }
+.choice-btn{ height:110px; font-size:36px; }
 @media (max-width: 800px){
-  .question{ font-size: 40px; }
-  .choice-btn{ height: 86px; font-size: 28px; }
+  .question{ font-size:40px; }
+  .choice-btn{ height:90px; font-size:28px; }
 }
