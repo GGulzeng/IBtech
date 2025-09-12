@@ -8,6 +8,7 @@
    - BAR; labels=국어,수학,과학; values=80,70,90
 
 
-[운영 메모]
-- 수학 과목은 임시 숨김 처리: styles.css 내 subject-card[data-subject="수학"] 규칙을 제거하면 즉시 복구됩니다.
-- 그래프/도형 영역은 레이아웃에서 숨김: styles.css 내 .figure-wrap/.figure-box 규칙을 제거하면 복구됩니다.
+[Design assets wired]
+- 배경: assets/bg_chalkboard.jpg, 자동 적용
+- 사운드: assets/correct.mp3 / assets/wrong.mp3, 자동 재생
+- 모달 배경: assets/modal_result.jpg (modal-content.bg-image)

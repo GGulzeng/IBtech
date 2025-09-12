@@ -6,6 +6,11 @@ let idx = 0;
 let correct = 0;
 let timerId = null;
 let timerLeft = 10;
+const SOUND_CORRECT_URL = 'assets/correct.mp3';
+const SOUND_WRONG_URL = 'assets/wrong.mp3';
+const USE_BACKGROUND = true;
+// Layout tweak: figure area removed from UI for now
+const FIGURE_DISABLED = true;
 
 // ===== Utils =====
 function $(s){ return document.querySelector(s); }
@@ -31,6 +36,7 @@ function back(){
   }
 }
 $('#btnBack').addEventListener('click', back);
+initDesignAssets();
 
 // ===== Month → Allowed Units =====
 function getAllowedUnitsForMonth(month){
@@ -105,6 +111,16 @@ async function pickLocalJson(){
     };
     input.click();
   });
+}
+function initDesignAssets(){
+  const ac = document.getElementById('sndCorrect');
+  const aw = document.getElementById('sndWrong');
+  if(ac && SOUND_CORRECT_URL){ ac.src = SOUND_CORRECT_URL; }
+  if(aw && SOUND_WRONG_URL){ aw.src = SOUND_WRONG_URL; }
+  if(USE_BACKGROUND){
+    document.documentElement.style.setProperty('--bg-image',"url('assets/bg_chalkboard.jpg')");
+    document.body.classList.add('has-bg');
+  }
 }
 function notify(text){
   const el = document.createElement('div');
@@ -248,9 +264,10 @@ function renderQuiz(){
   }
   const q = questions[idx];
   const fig = $('#figureBox');
-  const ginfo = parseGraphMeta(q.meta);
-  if(ginfo){ renderGraphSVG(fig, ginfo); }
-  else { fig.textContent = '그래프나 도형(포함된다면)'; }
+  if(!FIGURE_DISABLED){
+    const ginfo = parseGraphMeta(q.meta);
+    if(ginfo){ renderGraphSVG(fig, ginfo); } else { fig.textContent = '그래프나 도형(포함된다면)'; }
+  }
   $('#questionText').textContent = q.question;
 
   const wrongs = shuffle(q.choices.filter(c => String(c).trim() !== String(q.answer).trim())).slice(0,3);
@@ -275,6 +292,8 @@ function checkAnswer(choice, q){
 
 // ===== Modal & Timer =====
 function openModal(isCorrect, q){
+  const modalBox = document.querySelector('#answerModal .modal-content');
+  if(modalBox){ modalBox.classList.add('bg-image'); }
   const modal = $('#answerModal');
   $('#modalBadge').textContent = isCorrect ? '정답' : '오답';
   $('#modalAnswer').textContent = `정답: ${q.answer}`;
