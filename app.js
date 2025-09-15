@@ -110,7 +110,8 @@ async function pickLocalJson(){
     input.click();
   });
 }
-function initDesignAssets(){const ac=document.getElementById('sndCorrect');const aw=document.getElementById('sndWrong');if(ac&&SOUND_CORRECT_URL){ac.src=SOUND_CORRECT_URL}if(aw&&SOUND_WRONG_URL){aw.src=SOUND_WRONG_URL}if(USE_BACKGROUND){document.documentElement.style.setProperty('--bg-image',"url('assets/bg_chalkboard.jpg')");document.body.classList.add('has-bg')}}
+function initDesignAssets(){
+  new Image().src = "assets/crayon-circle.png";const ac=document.getElementById('sndCorrect');const aw=document.getElementById('sndWrong');if(ac&&SOUND_CORRECT_URL){ac.src=SOUND_CORRECT_URL}if(aw&&SOUND_WRONG_URL){aw.src=SOUND_WRONG_URL}if(USE_BACKGROUND){document.documentElement.style.setProperty('--bg-image',"url('assets/bg_chalkboard.jpg')");document.body.classList.add('has-bg')}}
 function notify(text){
   const el = document.createElement('div');
   el.textContent = text;
@@ -279,7 +280,8 @@ function checkAnswer(choice, q){
   markCorrectChoice(q.answer);
   playAnswerSound(isCorrect);
   if(isCorrect) correct++;
-  openModal(isCorrect, q);
+  notify((isCorrect? '정답입니다! ' : '오답입니다. ') + '정답: ' + String(q.answer));
+  setTimeout(()=> openModal(isCorrect, q), 1400);
 }
 
 // ===== Modal & Timer =====
