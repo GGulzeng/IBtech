@@ -60,19 +60,3 @@ body.has-bg{background-image:var(--bg-image);background-size:cover;background-po
 .modal-content.bg-image .modal-explain{background:rgba(255,255,255,.85);padding:8px 10px;border-radius:8px}
 
 .choice-btn{position:relative}.choice-btn.is-correct::after{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:calc(100% - 14px);height:calc(100% - 14px);border:6px solid #e53935;border-radius:999px;pointer-events:none;box-sizing:border-box}
-
-/* === 정답 보기에 크레용 동그라미 오버레이 === */
-.choice-btn { position: relative; }
-.choice-btn.is-correct::after{
-  content:"";
-  position:absolute;
-  inset:-10px;
-  background:url('assets/crayon-circle.png') no-repeat center / contain;
-  pointer-events:none;
-  z-index:2;
-  animation:crayon-pop .18s ease-out;
-}
-@keyframes crayon-pop{
-  0%{ transform:scale(0.9); opacity:0.0; }
-  100%{ transform:scale(1); opacity:1; }
-}
