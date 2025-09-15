@@ -1,405 +1,81 @@
+<!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="utf-8"/>
-<title>퀴즈</title>
-<link href="https://fonts.googleapis.com/css2?family=Schoolbell&display=swap" rel="stylesheet">
-<style>
-       body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 40px;
-      text-align: center;
-      background-image: url('칠판.jpeg');
-      background-size: cover;
-      background-position: center;
-    }
-    h1 {
-      font-size: 70px;
-      margin-bottom: 30px;
-      font-weight: bold;
-      color: #ffffff;
-      text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
-    }
-    #main-menu {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 40px;
-      margin-top: 40px;
-    }
-    #main-menu .level-card {
-      width: 600px;
-      height: 600px;
-      background-size: contain;
-      background-position: center;
-      background-repeat: no-repeat;
-      border: none;
-      background-color: transparent;
-      cursor: pointer;
-      transition: transform 0.2s ease;
-    }
-.level-card:hover {
-  animation: shake 0.4s ease-in-out;
-}
-
-@keyframes shake {
-  0% { transform: translate(0px, 0px) rotate(0deg); }
-  20% { transform: translate(-2px, 2px) rotate(-1deg); }
-  40% { transform: translate(2px, -1px) rotate(1deg); }
-  60% { transform: translate(-1px, 2px) rotate(0deg); }
-  80% { transform: translate(2px, 1px) rotate(1deg); }
-  100% { transform: translate(0px, 0px) rotate(0deg); }
-}
-    #main-menu .level-card:hover {
-      transform: scale(1.05);
-    }
-    #main-menu .easy {
-      background-image: url('level 1(chalk).png');
-    }
-    #main-menu .medium {
-      background-image: url('level 2(chalk).png');
-    }
-    .choices-container {
-      display: flex;
-      justify-content: space-around;
-      flex-wrap: wrap;
-      gap: 24px;
-      margin-top: 30px;
-    }
-    .choice-btn {
-      position: relative;
-      width: 40%;
-      min-width: 300px;
-      height: 140px;
-      font-size: 38px;
-      font-family: 'Segoe UI', sans-serif;
-      font-weight: bold;
-      background: transparent;
-      border-radius: 8px;
-      border: 2px solid white;
-      color: #fefefe;
-      cursor: pointer;
-      text-shadow: 0 0 1px white, 0 0 2px white;
-      transition: 0.2s;
-    }
-    .choice-btn:hover {
-      transform: scale(1.05);
-      filter: brightness(1.2);
-    }
-    .correct {
-    background-color: transparent !important;
-    color: #ffffff;
-    border: none;
-    }
-    .incorrect {
-    background-color: transparent !important;
-    color: #ffffff;
-    border: none;
-    }
-#back-button {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  padding: 10px 16px;
-  font-size: 16px;
-  border-radius: 8px;
-  border: 2px solid white;
-  background-color: transparent;
-  color: white;
-  cursor: pointer;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-  transition: transform 0.2s ease;
-}
-    #feedback {
-      margin-top: 24px;
-      font-weight: bold;
-      font-size: 18px;
-      color: white;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
-    }
-    #quiz-box p {
-      font-size: 64px;
-      color: white;
-      text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
-      font-family: 'Segoe UI', sans-serif;
-    }
-    #quiz-box p strong {
-      font-size: 72px;
-    }
-button.pronounce {
-  font-size: 24px;
-  padding: 12px 20px;
-  margin-top: 12px;
-  background: transparent;
-  border: 2px solid white;
-  color: white;
-  border-radius: 8px;
-  cursor: pointer;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-  transition: transform 0.2s ease;
-}
-
-button.pronounce:hover {
-  transform: scale(1.05);
-  background: rgba(255, 255, 255, 0.1);
-}
-
-    #progress {
-      font-size: 24px;
-      margin-bottom: 20px;
-      color: white;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-    }
-    #result-modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-    .modal-box {
-      background-image: url('modal_result.jpg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-color: transparent;
-      padding: 60px;
-      border-radius: 20px;
-      box-shadow: 0 12px 32px rgba(0,0,0,0.3);
-      text-align: center;
-      max-width: 700px;
-      width: 90%;
-      height: 550px;
-      color: #fff;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-    }
-    #result-title {
-      font-size: 56px;
-      margin-bottom: 20px;
-      color: #fff;
-    }
-    #result-message {
-      font-size: 34px;
-      color: #fff;
-    }
-    #result-icon {
-      font-size: 72px;
-      color: #fff;
-      margin-bottom: 20px;
-    }
-    .next-info {
-      font-size: 28px;
-      color: #fff;
-      margin-top: 35px;
-    }
-
-.crayon-stamp {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%; /* 버튼에 딱 맞게 */
-  height: 100%;
-  object-fit: contain;
-  pointer-events: none;
-  animation: pop-in 0.3s ease-out;
-  z-index: 3;
-}
-@keyframes pop-in {
-  0% { transform: scale(0); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>퀴즈</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <header class="topbar">
+    <button id="btnBack" class="back-btn" aria-label="뒤로 가기">뒤로 가기</button>
+    <h1 id="screenTitle" class="title">퀴즈</h1>
+  </header>
 
-<h1>오늘의 영어퀴즈</h1>
-<div id="main-menu">
-  <div class="level-card easy" onclick="playClick(); startQuiz('elementary')" aria-label="Level 1 퀴즈 시작"></div>
-  <div class="level-card medium" onclick="playClick(); startQuiz('middle')" aria-label="Level 2 퀴즈 시작"></div>
-</div>
+  <!-- 학년 선택 -->
+  <main id="viewHome" class="view active">
+    <div class="grid-3">
+      <button class="grade-card" data-grade="1">1학년</button>
+      <button class="grade-card" data-grade="2">2학년</button>
+      <button class="grade-card" data-grade="3">3학년</button>
+      <button class="grade-card" data-grade="4">4학년</button>
+      <button class="grade-card" data-grade="5">5학년</button>
+      <button class="grade-card" data-grade="6">6학년</button>
+    </div>
+  </main>
 
+  <!-- 과목 선택 (1,2학년) -->
+  <main id="viewSubjectLow" class="view">
+    <h2 class="subtitle">과 목 선 택</h2>
+    <div class="grid-2">
+      <button class="subject-card" data-subject="국어">국어</button>
+      <button class="subject-card" data-subject="수학">수학</button>
+    </div>
+  </main>
 
+  <!-- 과목 선택 (3~6학년) -->
+  <main id="viewSubjectHigh" class="view">
+    <h2 class="subtitle">과 목 선 택</h2>
+    <div class="grid-3">
+      <button class="subject-card" data-subject="국어">국어</button>
+      <button class="subject-card" data-subject="수학">수학</button>
+      <button class="subject-card" data-subject="과학">과학</button>
+      <button class="subject-card" data-subject="사회">사회</button>
+      <button class="subject-card" data-subject="영어">영어</button>
+    </div>
+  </main>
 
-<div id="quiz-screen" style="display: none;">
-<div id="progress"></div>
-<button id="back-button" onclick="goBack()">← 뒤로가기</button>
-<div id="quiz-box"></div>
-<div id="feedback"></div>
-</div>
-<div id="result-modal">
-<div class="modal-box">
-<div id="result-icon">🎉</div>
-<h2 id="result-title"></h2>
-<p id="result-message"></p>
-<p class="next-info">10초 후 메인화면으로 돌아갑니다...</p>
-</div>
-</div>
-<audio id="correct-audio" src="정답.mp3"></audio>
-<audio id="wrong-audio" src="오답.mp3"></audio>
-<audio id="cheer-audio" src="초등학생 환호소리.mp3"></audio>
-<audio id="click-sound" src="click.mp3"></audio>
+  <!-- 문제 풀이 -->
+  <main id="viewQuiz" class="view">
+    <section class="figure-wrap" id="figureWrap">
+      <div id="figureBox" class="figure-box">그래프나 도형(포함된다면)</div>
+    </section>
+    <section class="question-wrap">
+      <div id="questionText" class="question">문제</div>
+    </section>
+    <section id="choicesWrap" class="choices-grid"></section>
+    <footer class="quiz-footer">
+      <div id="progress" class="progress">1 / 20</div>
+    </footer>
+  </main>
 
-<script src="quizzes.js"></script>
-<script>
-    let currentLevel = '';
-    let quizQueue = [];
-    let currentIndex = 0;
-    let correctCount = 0;
+  <!-- 정답/오답 모달 -->
+  <div id="answerModal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <div id="modalBadge" class="badge">정답</div>
+      <div id="modalAnswer" class="modal-answer"></div>
+      <div id="modalExplain" class="modal-explain"></div>
+      <div class="modal-controls">
+        <button id="btnNext" class="next-btn">다음 문제</button>
+        <div class="timer">
+          <div id="timerBar" class="timer-bar"></div>
+          <span id="timerText" class="timer-text">10</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    function startQuiz(level) {
-      document.getElementById('main-menu').style.display = 'none';
-      document.getElementById('quiz-screen').style.display = 'block';
-      document.getElementById("result-modal").style.display = 'none';
-      currentLevel = level;
-      correctCount = 0;
-      quizQueue = quizzes[level].slice().sort(() => 0.5 - Math.random());
-      currentIndex = 0;
-      showNextQuiz();
-    }
-
-    function goBack() {
-      document.getElementById('quiz-screen').style.display = 'none';
-      document.getElementById('main-menu').style.display = 'flex';
-      document.getElementById('quiz-box').innerHTML = '';
-      document.getElementById('feedback').textContent = '';
-      document.getElementById('progress').textContent = '';
-    }
-
-    function showNextQuiz() {
-      document.getElementById("feedback").textContent = "";
-      document.getElementById("progress").textContent = `${currentIndex + 1} / 10`;
-      const box = document.getElementById("quiz-box");
-      if (currentIndex >= 10 || currentIndex >= quizQueue.length) {
-        showResultModal();
-        return;
-      }
-      const quiz = quizQueue[currentIndex++];
-      const word = quiz.question.match(/'(.*?)'/)[1];
-      const currentAnswer = quiz.answer.trim();
-      const allAnswers = quizzes[currentLevel].map(q => q.answer.trim()).filter(a => a);
-      const shuffled = allAnswers.filter(a => a !== currentAnswer).sort(() => 0.5 - Math.random()).slice(0, 3);
-      shuffled.push(currentAnswer);
-      const choices = shuffled.sort(() => 0.5 - Math.random());
-
-      const buttonsHTML = '<div class="choices-container">' + choices.map(choice =>
-        `<button class="choice-btn" onclick="checkAnswer(this, '${currentAnswer}')">${choice}</button>`
-      ).join("") + '</div>';
-
-      box.innerHTML = `
-        <p><strong>${quiz.question}</strong></p>
-        <button class="pronounce" onclick="speak('${word}')">🔊 발음 듣기</button>
-        <audio id="audio-${word.toLowerCase()}" src="tts/${word.toLowerCase()}.mp3"></audio>
-        ${buttonsHTML}
-      `;
-
-      speak(word);
-    }
-
-function checkAnswer(button, correctAnswer) {
-  const userChoice = button.textContent.trim();
-  const buttons = document.querySelectorAll(".choice-btn");
-
-  if (userChoice === correctAnswer) {
-    document.getElementById("correct-audio").play();
-    button.classList.add("correct");
-    correctCount++;
-    buttons.forEach(btn => btn.disabled = true);
-    document.getElementById("feedback").textContent = "정답입니다!";
-    document.getElementById("feedback").style.color = "white";
-    showCrayonStamp(button);
-    setTimeout(showNextQuiz, 2000);
-  } else {
-    document.getElementById("wrong-audio").play();
-    button.classList.add("incorrect");
-    buttons.forEach(btn => {
-      if (btn.textContent.trim() === correctAnswer) {
-        btn.classList.add("correct");
-        showCrayonStamp(btn);
-      }
-      btn.disabled = true;
-    });
-    document.getElementById("feedback").textContent = "오답입니다. 정답은 '" + correctAnswer + "' 입니다.";
-    document.getElementById("feedback").style.color = "white";
-    setTimeout(showNextQuiz, 2000);
-  }
-}
-
-function showCrayonStamp(button) {
-  const img = document.createElement("img");
-  img.src = "crayon-circle.png";
-  img.className = "crayon-stamp";
-  button.style.position = "relative";
-  button.appendChild(img);
-}
-function speak(word) {
-  const audioId = "audio-" + word.toLowerCase();
-  const audio = document.getElementById(audioId);
-  if (audio) {
-    audio.currentTime = 0;
-    audio.play();
-  }
-}    
-function showResultModal() {
-      const cheerAudio = document.getElementById("cheer-audio");
-      if (cheerAudio) {
-        cheerAudio.currentTime = 0;
-        cheerAudio.play().catch(e => console.warn("Autoplay blocked:", e));
-      }
-      const icon = document.getElementById("result-icon");
-      const title = document.getElementById("result-title");
-      const message = document.getElementById("result-message");
-
-      let text = "";
-      let emoji = "🙂";
-
-      if (correctCount <= 2) {
-        text = "시작이 반이에요! 지금은 많이 틀렸지만, 반복해서 연습하면 누구나 실력이 늘어요.";
-        emoji = "🌀";
-      } else if (correctCount <= 4) {
-        text = "조금씩 익숙해지고 있어요. 자주 나오는 단어를 메모해서 외워보는 것도 좋아요.";
-        emoji = "📝";
-      } else if (correctCount <= 6) {
-        text = "반 이상 맞췄어요! 기초는 잘 되어 있어요. 틀린 단어는 예문 속에서 다시 익혀보세요.";
-        emoji = "📚";
-      } else if (correctCount === 7) {
-        text = "잘하고 있어요! 유사한 단어와 함께 외워보면 더 좋아요.";
-        emoji = "👍";
-      } else if (correctCount === 8) {
-        text = "멋져요! 실수를 줄이려면 문제를 천천히 다시 읽어보는 습관을 들이세요.";
-        emoji = "🌟";
-      } else if (correctCount === 9) {
-        text = "훌륭해요! 틀린 단어 하나만 복습하면 완벽해질 수 있어요.";
-        emoji = "💡";
-      } else {
-        text = "완벽해요! 오늘 학습한 단어들을 실제 문장에서 사용해보면 더 오래 기억할 수 있어요.";
-        emoji = "🎉";
-      }
-
-      icon.textContent = emoji;
-      title.textContent = `${correctCount} / 10`;
-      message.textContent = text;
-
-      document.getElementById("result-modal").style.display = "flex";
-      setTimeout(() => {
-        goBack();
-        document.getElementById("result-modal").style.display = "none";
-      }, 10000);
-    }
-   
-
-function playClick() {
-  const click = document.getElementById("click-sound");
-  if (click) {
-    click.currentTime = 0;
-    click.play().catch(() => {});
-  }
-}
-
-  </script>
+  <script src="app.js"></script>
   <audio id="sndCorrect" preload="auto" src="assets/correct.mp3"></audio>
   <audio id="sndWrong" preload="auto" src="assets/wrong.mp3"></audio>
 </body>

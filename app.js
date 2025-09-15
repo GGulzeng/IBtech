@@ -6,11 +6,9 @@ let idx = 0;
 let correct = 0;
 let timerId = null;
 let timerLeft = 10;
-const SOUND_CORRECT_URL = 'assets/correct.mp3';
-const SOUND_WRONG_URL = 'assets/wrong.mp3';
-const USE_BACKGROUND = true;
-// Layout tweak: figure area removed from UI for now
-const FIGURE_DISABLED = true;
+const SOUND_CORRECT_URL='assets/correct.mp3';
+const SOUND_WRONG_URL='assets/wrong.mp3';
+const USE_BACKGROUND=true;
 
 // ===== Utils =====
 function $(s){ return document.querySelector(s); }
@@ -113,15 +111,7 @@ async function pickLocalJson(){
   });
 }
 function initDesignAssets(){
-  const ac = document.getElementById('sndCorrect');
-  const aw = document.getElementById('sndWrong');
-  if(ac && SOUND_CORRECT_URL){ ac.src = SOUND_CORRECT_URL; }
-  if(aw && SOUND_WRONG_URL){ aw.src = SOUND_WRONG_URL; }
-  if(USE_BACKGROUND){
-    document.documentElement.style.setProperty('--bg-image',"url('assets/bg_chalkboard.jpg')");
-    document.body.classList.add('has-bg');
-  }
-}
+  new Image().src = "assets/crayon-circle.png";const ac=document.getElementById('sndCorrect');const aw=document.getElementById('sndWrong');if(ac&&SOUND_CORRECT_URL){ac.src=SOUND_CORRECT_URL}if(aw&&SOUND_WRONG_URL){aw.src=SOUND_WRONG_URL}if(USE_BACKGROUND){document.documentElement.style.setProperty('--bg-image',"url('assets/bg_chalkboard.jpg')");document.body.classList.add('has-bg')}}
 function notify(text){
   const el = document.createElement('div');
   el.textContent = text;
@@ -264,10 +254,9 @@ function renderQuiz(){
   }
   const q = questions[idx];
   const fig = $('#figureBox');
-  if(!FIGURE_DISABLED){
-    const ginfo = parseGraphMeta(q.meta);
-    if(ginfo){ renderGraphSVG(fig, ginfo); } else { fig.textContent = '그래프나 도형(포함된다면)'; }
-  }
+  const ginfo = parseGraphMeta(q.meta);
+  if(ginfo){ renderGraphSVG(fig, ginfo); }
+  else { fig.textContent = '그래프나 도형(포함된다면)'; }
   $('#questionText').textContent = q.question;
 
   const wrongs = shuffle(q.choices.filter(c => String(c).trim() !== String(q.answer).trim())).slice(0,3);
@@ -284,16 +273,22 @@ function renderQuiz(){
   $('#progress').textContent = `${idx+1} / ${questions.length}`;
 }
 
+function playAnswerSound(ok){const el=document.getElementById(ok?'sndCorrect':'sndWrong');if(el&&el.play){try{el.currentTime=0;el.play()}catch(e){}}}
+function markCorrectChoice(correctText){document.querySelectorAll('.choice-btn').forEach(btn=>{if(String(btn.dataset.choice).trim()===String(correctText).trim()){btn.classList.add('is-correct')}})}
 function checkAnswer(choice, q){
   const isCorrect = String(choice).trim() === String(q.answer).trim();
+  markCorrectChoice(q.answer);
+  playAnswerSound(isCorrect);
   if(isCorrect) correct++;
-  openModal(isCorrect, q);
+  notify((isCorrect? '정답입니다! ' : '오답입니다. ') + '정답: ' + String(q.answer));
+  setTimeout(()=> openModal(isCorrect, q), 900);
 }
 
 // ===== Modal & Timer =====
 function openModal(isCorrect, q){
-  const modalBox = document.querySelector('#answerModal .modal-content');
-  if(modalBox){ modalBox.classList.add('bg-image'); }
+  const modalBox=document.querySelector('#answerModal .modal-content');
+  if(modalBox){modalBox.classList.add('bg-image');}
+
   const modal = $('#answerModal');
   $('#modalBadge').textContent = isCorrect ? '정답' : '오답';
   $('#modalAnswer').textContent = `정답: ${q.answer}`;
