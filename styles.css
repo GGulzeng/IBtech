@@ -60,3 +60,24 @@ body.has-bg{background-image:var(--bg-image);background-size:cover;background-po
 .modal-content.bg-image .modal-explain{background:rgba(255,255,255,.85);padding:8px 10px;border-radius:8px}
 
 .choice-btn{position:relative}.choice-btn.is-correct::after{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:calc(100% - 14px);height:calc(100% - 14px);border:6px solid #e53935;border-radius:999px;pointer-events:none;box-sizing:border-box}
+
+
+/* === 크레용 동그라미 위치: 선택 보기의 우측 상단 코너 배지처럼 표시 (override) === */
+.choice-btn { position: relative; } /* 안전: 기준 박스 보장 */
+.choice-btn.is-correct::after{
+  /* 이전 inset 값 무력화 후 코너 위치 지정 */
+  inset: auto !important;
+  top: -8px; 
+  right: -8px; 
+  left: auto; 
+  bottom: auto;
+
+  width: 44px;              /* 버튼 높이 80px 기준 적정 크기 */
+  height: 44px;
+  background: url('assets/crayon-circle.png') no-repeat center / contain;
+  pointer-events: none;
+  z-index: 2;
+  /* 필요 시 살짝 팝 효과 유지 */
+  animation: crayon-pop .18s ease-out;
+  transform: none;          /* 코너 배지 안정 표시 */
+}
