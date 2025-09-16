@@ -110,15 +110,7 @@ async function pickLocalJson(){
     input.click();
   });
 }
-function initDesignAssets(){
-  /* AUDIO_PRELOAD_PATCH */
-  try{
-    const ac=document.getElementById('sndCorrect');
-    const aw=document.getElementById('sndWrong');
-    if(ac){ ac.preload='auto'; ac.load(); }
-    if(aw){ aw.preload='auto'; aw.load(); }
-  }catch(e){}
-const ac=document.getElementById('sndCorrect');const aw=document.getElementById('sndWrong');if(ac&&SOUND_CORRECT_URL){ac.src=SOUND_CORRECT_URL}if(aw&&SOUND_WRONG_URL){aw.src=SOUND_WRONG_URL}if(USE_BACKGROUND){document.documentElement.style.setProperty('--bg-image',"url('assets/bg_chalkboard.jpg')");document.body.classList.add('has-bg')}}
+function initDesignAssets(){const ac=document.getElementById('sndCorrect');const aw=document.getElementById('sndWrong');if(ac&&SOUND_CORRECT_URL){ac.src=SOUND_CORRECT_URL}if(aw&&SOUND_WRONG_URL){aw.src=SOUND_WRONG_URL}if(USE_BACKGROUND){document.documentElement.style.setProperty('--bg-image',"url('assets/bg_chalkboard.jpg')");document.body.classList.add('has-bg')}}
 function notify(text){
   const el = document.createElement('div');
   el.textContent = text;
@@ -287,13 +279,12 @@ function checkAnswer(choice, q){
   markCorrectChoice(q.answer);
   playAnswerSound(isCorrect);
   if(isCorrect) correct++;
-  notify((isCorrect? '정답입니다! ' : '오답입니다. ') + '정답: ' + String(q.answer));
-  setTimeout(()=> openModal(isCorrect, q), 2800);
+  openModal(isCorrect, q);
 }
 
 // ===== Modal & Timer =====
 function openModal(isCorrect, q){
-  document.querySelectorAll('.choice-btn.is-correct').forEach(el=>el.classList.remove('is-correct')); const modalBox=document.querySelector('#answerModal .modal-content');
+  const modalBox=document.querySelector('#answerModal .modal-content');
   if(modalBox){modalBox.classList.add('bg-image');}
 
   const modal = $('#answerModal');
