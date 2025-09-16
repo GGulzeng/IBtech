@@ -1,4 +1,4 @@
-
+41
 :root{ --bg-image:none;  --line:#2e7d32; --accent:#2e7d32; --bg:#ffffff; --text:#111; }
 *{box-sizing:border-box}
 html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:system-ui,Apple SD Gothic Neo,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
@@ -65,8 +65,8 @@ body.has-bg{background-image:var(--bg-image);background-size:cover;background-po
 .choice-btn.is-correct::after{
   position: absolute;
   inset: auto !important;
-  top: 20px !important;
-  left: 10px !important;
+  top: 30px !important;
+  left: 20px !important;
   right: auto !important;
   bottom: auto !important;
   width: 250px !important;
