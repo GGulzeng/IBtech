@@ -65,19 +65,19 @@ body.has-bg{background-image:var(--bg-image);background-size:cover;background-po
 .choice-btn { position: relative; }
 .choice-btn.is-correct::after{
   position: absolute;
-  inset: auto !important;
-  top: 80px !important;
-  left: 60px !important;
-  right: auto !important;
-  bottom: auto !important;
-  width: 220px !important;
-  height: 220px !important;
-  background: url('assets/crayon-circle.png') no-repeat center / contain !important;
-  content: "" !important;
+  inset: auto;
+  top: 8px;
+  left: 6px;
+  right: auto;
+  bottom: auto;
+  width: 220px;
+  height: 220px;
+  background: url('assets/crayon-circle.png') no-repeat center / contain;
+  content: "";
   pointer-events: none;
-  z-index: 9 !important;
+  z-index: 9;
   animation: crayon-pop .18s ease-out;
-  transform: none !important;
+  transform: none;
 }
 
 .choice-btn{ overflow:visible; }
