@@ -65,8 +65,8 @@ body.has-bg{background-image:var(--bg-image);background-size:cover;background-po
 .choice-btn.is-correct::after{
   position: absolute;
   inset: auto !important;
-  top: 30px !important;
-  left: 20px !important;
+  top: 0px !important;
+  left: 0px !important;
   right: auto !important;
   bottom: auto !important;
   width: 250px !important;
