@@ -273,7 +273,7 @@ function renderQuiz(){
 }
 
 function playAnswerSound(ok){const el=document.getElementById(ok?'sndCorrect':'sndWrong');if(el&&el.play){try{el.currentTime=0;el.play()}catch(e){}}}
-function markCorrectChoice(correctText){document.querySelectorAll('.choice-btn').forEach(btn=>{if(String(btn.dataset.choice).trim()===String(correctText).trim()){btn.classList.add('is-correct')}})}
+function markCorrectChoice(answerIndex){ return; }})}
 function checkAnswer(choice, q){
   const isCorrect = String(choice).trim() === String(q.answer).trim();
   markCorrectChoice(q.answer);
@@ -284,6 +284,11 @@ function checkAnswer(choice, q){
 
 // ===== Modal & Timer =====
 function openModal(isCorrect, q){
+  const modal = document.getElementById('answerModal');
+  if(modal){ modal.classList.toggle('is-correct', isCorrect); modal.classList.toggle('is-wrong', !isCorrect); }
+  const mark = document.getElementById('modalMark');
+  if(mark){ mark.src = isCorrect ? 'assets/O.png' : 'assets/X.png'; mark.alt = isCorrect ? '정답' : '오답'; }
+
   const modalBox=document.querySelector('#answerModal .modal-content');
   if(modalBox){modalBox.classList.add('bg-image');}
 
