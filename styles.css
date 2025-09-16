@@ -65,12 +65,12 @@ body.has-bg{background-image:var(--bg-image);background-size:cover;background-po
 .choice-btn.is-correct::after{
   position: absolute;
   inset: auto !important;
-  top: -8px !important;
-  left: -8px !important;
+  top: 1px !important;
+  left: 1px !important;
   right: auto !important;
   bottom: auto !important;
-  width: 70px !important;
-  height: 70px !important;
+  width: 140px !important;
+  height: 140px !important;
   background: url('assets/crayon-circle.png') no-repeat center / contain !important;
   content: "" !important;
   pointer-events: none;
