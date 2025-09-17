@@ -56,7 +56,10 @@ body.has-bg{background-image:var(--bg-image);background-size:cover;background-po
 @media (max-width:800px){.question{font-size:40px}.choice-btn{height:90px;font-size:28px}}
 
 
-.choice-btn{position:relative}.choice-btn.is-correct::after{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:calc(100% - 14px);height:calc(100% - 14px);border:6px solid #e53935;border-radius:999px;pointer-events:none;box-sizing:border-box}
+
+
+
+.choice-btn{position:relative}
 
 
 /* === MODAL O/X & BACKGROUND (v10) === */
@@ -90,3 +93,6 @@ body.has-bg{background-image:var(--bg-image);background-size:cover;background-po
 
 #answerModal .answer-text,
 #answerModal .explain-text{ font-size: var(--modal-text); line-height: 1.55; }
+
+/* Safety: containing block for ::before overlay */
+#answerModal .modal-content{ position: relative; }
