@@ -98,3 +98,19 @@ button.choice-btn.is-correct::after,
 
 /* 혹시 남아 있을 수 있는 ::before 효과 차단 */
 .choice-btn.is-correct::before{ content:none !important; }
+
+
+/* === MODAL UPGRADE (v9→modal-only) === */
+:root{
+  --modal-w: min(960px, 94vw);
+  --modal-mark: clamp(120px, 18vw, 220px);
+  --modal-text: clamp(20px, 2.6vw, 28px);
+}
+#answerModal .modal-dialog{ max-width: var(--modal-w); }
+#answerModal .modal-content{ padding: 28px 28px 24px; border-radius: 16px; }
+
+.modal-mark-wrap{ display:flex; align-items:center; justify-content:center; margin: 4px 0 12px; }
+.modal-mark{ width: var(--modal-mark); height: var(--modal-mark); object-fit: contain; }
+
+#answerModal .answer-text,
+#answerModal .explain-text{ font-size: var(--modal-text); line-height: 1.55; }
