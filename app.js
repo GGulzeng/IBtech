@@ -110,7 +110,9 @@ async function pickLocalJson(){
     input.click();
   });
 }
-function initDesignAssets(){const ac=document.getElementById('sndCorrect');const aw=document.getElementById('sndWrong');if(ac&&SOUND_CORRECT_URL){ac.src=SOUND_CORRECT_URL}if(aw&&SOUND_WRONG_URL){aw.src=SOUND_WRONG_URL}if(USE_BACKGROUND){document.documentElement.style.setProperty('--bg-image',"url('assets/bg_chalkboard.jpg')");document.body.classList.add('has-bg')}}
+function initDesignAssets(){
+  new Image().src='assets/O.png';
+  new Image().src='assets/X.png';const ac=document.getElementById('sndCorrect');const aw=document.getElementById('sndWrong');if(ac&&SOUND_CORRECT_URL){ac.src=SOUND_CORRECT_URL}if(aw&&SOUND_WRONG_URL){aw.src=SOUND_WRONG_URL}if(USE_BACKGROUND){document.documentElement.style.setProperty('--bg-image',"url('assets/bg_chalkboard.jpg')");document.body.classList.add('has-bg')}}
 function notify(text){
   const el = document.createElement('div');
   el.textContent = text;
@@ -284,29 +286,57 @@ function checkAnswer(choice, q){
 
 // ===== Modal & Timer =====
 function openModal(isCorrect, q){
-  const modalBox=document.querySelector('#answerModal .modal-content');
-  if(modalBox){modalBox.classList.add('bg-image');}
+  const modal = document.getElementById('answerModal');
+  if (!modal) return;
 
-  const modal = $('#answerModal');
-  $('#modalBadge').textContent = isCorrect ? '정답' : '오답';
-  $('#modalAnswer').textContent = `정답: ${q.answer}`;
-  $('#modalExplain').textContent = q.explanation || '해설이 제공되지 않았습니다.';
+  // 상태 클래스
+  modal.classList.toggle('is-correct', isCorrect);
+  modal.classList.toggle('is-wrong', !isCorrect);
+
+  // 큰 O/X
+  const mark = document.getElementById('modalMark');
+  if (mark) {
+    mark.src = isCorrect ? 'assets/O.png' : 'assets/X.png';
+    mark.alt = isCorrect ? '정답' : '오답';
+  }
+
+  // (선택) 배경 클래스 - 쓰지 않으면 지워도 됨
+  const modalBox = document.querySelector('#answerModal .modal-content');
+  if (modalBox) modalBox.classList.add('bg-image');
+
+  // 텍스트
+  const badge = document.getElementById('modalBadge');
+  if (badge) badge.textContent = isCorrect ? '정답' : '오답';
+  const ans = document.getElementById('modalAnswer');
+  if (ans) ans.textContent = `정답: ${q.answer}`;
+  const exp = document.getElementById('modalExplain');
+  if (exp) exp.textContent = q.explanation || '해설이 제공되지 않았습니다.';
+
+  // 모달 표시(두 방식 동시 적용 → 테마 차이 무력화)
   modal.classList.add('show');
+  modal.style.display = 'flex';
   modal.setAttribute('aria-hidden','false');
 
+  // ⬇️ 이 두 블록은 반드시 openModal "안"에 있어야 함
   startTimer(10, () => {
     closeModal();
     idx++; renderQuiz();
   });
-  $('#btnNext').onclick = () => {
-    stopTimer();
-    closeModal();
-    idx++; renderQuiz();
-  };
+
+  const btnNext = document.getElementById('btnNext');
+  if (btnNext) {
+    btnNext.onclick = () => {
+      stopTimer();
+      closeModal();
+      idx++; renderQuiz();
+    };
+  }
 }
 function closeModal(){
-  const modal = $('#answerModal');
+  const modal = document.getElementById('answerModal');
+  if (!modal) return;
   modal.classList.remove('show');
+  modal.style.display = 'none';           // ← inline display 되돌림
   modal.setAttribute('aria-hidden','true');
 }
 function startTimer(seconds, onEnd){
