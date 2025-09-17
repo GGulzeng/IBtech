@@ -55,44 +55,46 @@ body.has-bg{background-image:var(--bg-image);background-size:cover;background-po
 .view{max-width:1280px}.question{font-size:56px;line-height:1.28;padding:22px 26px}.choices-grid{gap:32px}.choice-btn{height:110px;font-size:36px}
 @media (max-width:800px){.question{font-size:40px}.choice-btn{height:90px;font-size:28px}}
 
+.modal-content.bg-image{background:#fff url('assets/modal_result.jpg') center/cover no-repeat;border-color:transparent}
+.modal-content.bg-image .badge{background:rgba(255,255,255,.85)}
+.modal-content.bg-image .modal-explain{background:rgba(255,255,255,.85);padding:8px 10px;border-radius:8px}
+
+.choice-btn{position:relative}.choice-btn.is-correct::after{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:calc(100% - 14px);height:calc(100% - 14px);border:6px solid #e53935;border-radius:999px;pointer-events:none;box-sizing:border-box}
 
 
-
-
-.choice-btn{position:relative}
-
-
-/* === MODAL O/X & BACKGROUND (v10) === */
+/* === HARD OVERRIDE (v9): 정답 PNG 배지 - 박스 '안쪽' 좌상단 고정 === */
 :root{
-  --modal-w: min(960px, 94vw);
-  --modal-mark: clamp(120px, 18vw, 220px);
-  --modal-text: clamp(20px, 2.6vw, 28px);
+  --badge-size: 64px;   /* 크기 조절: 44~72px 권장 */
+  --badge-inset: 8px;   /* 안쪽 여백 조절: 4~16px 권장 */
 }
-#answerModal .modal-dialog{ max-width: var(--modal-w); }
-#answerModal .modal-content{
-  padding: 28px 28px 24px;
-  border-radius: 16px;
-  background-image: url('assets/modal.png');      /* background image */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  backdrop-filter: none;
+.choice-btn{ position: relative !important; overflow: hidden !important; }
+
+button.choice-btn.is-correct::after,
+.choice-btn.is-correct::after{
+  position: absolute !important;
+  inset: auto !important;
+  transform: none !important;
+  animation: none !important;
+
+  top: var(--badge-inset) !important;
+  left: var(--badge-inset) !important;
+  right: auto !important;
+  bottom: auto !important;
+
+  width: var(--badge-size) !important;
+  height: var(--badge-size) !important;
+
+  content: "" !important;
+  background-image: url("assets/circle.png") !important;
+  background-repeat: no-repeat !important;
+  background-size: contain !important;
+  background-position: center !important;
+
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  z-index: 9 !important;
 }
-/* Text readability layer if needed */
-#answerModal .modal-content::before{
-  content:"";
-  position:absolute; inset:0;
-  background: rgba(255,255,255,0.72);
-  pointer-events:none;
-  border-radius: inherit;
-}
-#answerModal .modal-content > *{ position: relative; } /* keep children above overlay */
 
-.modal-mark-wrap{ display:flex; align-items:center; justify-content:center; margin: 4px 0 12px; }
-.modal-mark{ width: var(--modal-mark); height: var(--modal-mark); object-fit: contain; }
-
-#answerModal .answer-text,
-#answerModal .explain-text{ font-size: var(--modal-text); line-height: 1.55; }
-
-/* Safety: containing block for ::before overlay */
-#answerModal .modal-content{ position: relative; }
+/* 혹시 남아 있을 수 있는 ::before 효과 차단 */
+.choice-btn.is-correct::before{ content:none !important; }

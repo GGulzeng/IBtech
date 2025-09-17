@@ -1,8 +1,4 @@
 
-// DOM helpers
-const $ = (sel)=>document.querySelector(sel);
-const $$ = (sel)=>Array.from(document.querySelectorAll(sel));
-
 let selectedGrade = null;
 let selectedSubject = null;
 let questions = [];
@@ -277,7 +273,7 @@ function renderQuiz(){
 }
 
 function playAnswerSound(ok){const el=document.getElementById(ok?'sndCorrect':'sndWrong');if(el&&el.play){try{el.currentTime=0;el.play()}catch(e){}}}
-function markCorrectChoice(answerIndex){ return; }
+function markCorrectChoice(correctText){document.querySelectorAll('.choice-btn').forEach(btn=>{if(String(btn.dataset.choice).trim()===String(correctText).trim()){btn.classList.add('is-correct')}})}
 function checkAnswer(choice, q){
   const isCorrect = String(choice).trim() === String(q.answer).trim();
   markCorrectChoice(q.answer);
@@ -288,13 +284,8 @@ function checkAnswer(choice, q){
 
 // ===== Modal & Timer =====
 function openModal(isCorrect, q){
-  const modalEl = document.getElementById('answerModal');
-  if(modalEl){ modalEl.classList.toggle('is-correct', isCorrect); modalEl.classList.toggle('is-wrong', !isCorrect); }
-  const mark = document.getElementById('modalMark');
-  if(mark){ mark.src = isCorrect ? 'assets/O.png' : 'assets/X.png'; mark.alt = isCorrect ? '정답' : '오답'; }
-
   const modalBox=document.querySelector('#answerModal .modal-content');
-  /* bg-image class no-op (removed) */
+  if(modalBox){modalBox.classList.add('bg-image');}
 
   const modal = $('#answerModal');
   $('#modalBadge').textContent = isCorrect ? '정답' : '오답';
